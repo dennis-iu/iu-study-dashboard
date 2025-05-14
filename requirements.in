@@ -1,0 +1,11 @@
+mysql-connector-python
+CustomTkinter
+pandas
+autoflake
+yamlfmt
+flake8
+black
+isort
+yamllint
+pip-tools
+pyyaml
