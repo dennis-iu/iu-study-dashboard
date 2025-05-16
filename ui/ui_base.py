@@ -3,8 +3,8 @@ import sys
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from abc import ABC
-from tkinter import (Button, Canvas, Entry, Label, PhotoImage, Radiobutton,
-                     StringVar, Toplevel, messagebox)
+from tkinter import (Button, Canvas, Entry, Frame, Label, PhotoImage,
+                     Radiobutton, Scrollbar, StringVar, Toplevel, messagebox)
 
 
 class UiBase(ABC):
@@ -211,7 +211,7 @@ class UiBase(ABC):
         self, name, options, position, width=265, height=28, bg_color="#FFFFFF"
     ):
         """
-        Methode, um ein Dropdown-Menü im Canvas zu integrieren.
+        Methode, um ein Dropdown-Menü mit Scrollfunktion im Canvas zu integrieren.
 
         :param name: str - Name des Dropdowns
         :param options: list - Liste der Auswahlmöglichkeiten
@@ -244,32 +244,61 @@ class UiBase(ABC):
 
         # Dropdown anzeigen
         def show_dropdown(event):
-            """
-            Methode um das Dropdown Menü basierend auf dem Event anzupassen.
-
-            :param event: event - change event
-            :return: None
-            """
             current_ref = self.dropdown_references[name]
             if "window" in current_ref and current_ref["window"] is not None:
                 current_ref["window"].destroy()
 
             dropdown_window = Toplevel()
-
-            x = int(event.x_root)
-            y = int(event.y_root + height)
-            dropdown_window.geometry(f"+{x}+{y}")
             dropdown_window.overrideredirect(True)
+            dropdown_window.configure(bg=bg_color)
 
-            # Checkboxen hinzufügen
+            # Position berechnen
+            x = event.x_root
+            y = event.y_root + height
+
+            screen_height = dropdown_window.winfo_screenheight()
+            dropdown_height = min(300, len(options) * 30 + 50)
+
+            if y + dropdown_height > screen_height:
+                y = event.y_root - dropdown_height
+
+            dropdown_window.geometry(
+                f"{int(width)}x{int(dropdown_height)}+{int(x)}+{int(y)}"
+            )
+            dropdown_window.focus_set()
+
+            def close_dropdown_delayed(event):
+                dropdown_window.after(100, lambda: dropdown_window.destroy())
+
+            dropdown_window.bind("<FocusOut>", lambda e: close_dropdown_delayed())
+
+            # Canvas mit Scrollbar für Optionen
+            container = Frame(dropdown_window, bg=bg_color)
+            container.pack(fill="both", expand=True)
+
+            canvas = Canvas(container, bg=bg_color, highlightthickness=0)
+            scrollbar = Scrollbar(container, orient="vertical", command=canvas.yview)
+            scrollable_frame = Frame(canvas, bg=bg_color)
+
+            scrollable_frame.bind(
+                "<Configure>",
+                lambda e: canvas.configure(scrollregion=canvas.bbox("all")),
+            )
+
+            canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
+            canvas.configure(yscrollcommand=scrollbar.set)
+
+            canvas.pack(side="left", fill="both", expand=True)
+            scrollbar.pack(side="right", fill="y")
+
+            # Auswahl + Label-Update
             def update_label():
-                """Label aktualisieren."""
                 selected_value = selected_var.get()
                 label_text.set(selected_value if selected_value else "Dropdown-Menü")
 
             for option in current_ref["options"]:
                 Radiobutton(
-                    dropdown_window,
+                    scrollable_frame,
                     text=option,
                     variable=selected_var,
                     value=option,
@@ -278,22 +307,18 @@ class UiBase(ABC):
                     command=update_label,
                 ).pack(fill="x", padx=5, pady=2)
 
-            # OK-Button zum Schließen
-            def close_dropdown():
-                """Dropdown schließen."""
-                dropdown_window.destroy()
-                current_ref["window"] = None
-
+            # OK-Button
             Button(
-                dropdown_window, text="Ok", command=close_dropdown, bg=bg_color
+                scrollable_frame,
+                text="OK",
+                command=dropdown_window.destroy,
+                bg=bg_color,
             ).pack(fill="x", padx=5, pady=5)
 
-            # Speichern
             current_ref["window"] = dropdown_window
-
             setattr(self, f"{name}_dropdown_window", dropdown_window)
 
-        # Label anklickbar machen
+        # Klick auf Label öffnet Dropdown
         label.bind("<Button-1>", show_dropdown)
 
     def get_selected_dropdown_value(self, name):
