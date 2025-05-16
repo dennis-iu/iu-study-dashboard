@@ -1,0 +1,79 @@
+import importlib
+import logging as log
+
+from ui.ui_base import UiBase
+
+
+class DeleteUi(UiBase):
+    """Klasse für das Delete-Dasboard."""
+
+    def __init__(self, master, config):
+        """
+        Initialisierung der Delete-Klasse.
+
+        :param master: Tkinter Objekt
+        :param config: dict - Konfigurationsdatei
+        :return: None
+        """
+        super().__init__(master, config, "Delete Course")
+
+        # Variablen für Eingabefeld
+        field = "Select Course"
+        options = {"Select Course": ["Course 1", "Course 2", "Course 3"]}
+        y_pos = 210.0
+        x_pos = 190.0
+
+        # Label erstellen
+        self.create_dynamic_text(
+            field,
+            {"x": x_pos, "y": y_pos - 25},
+            "Inter light",
+            18 * -1,
+            "nw",
+            "#4138D0",
+            "bold",
+        )
+
+        # Dropdown für Kursauswahl erstellen
+        self.create_dropdown(
+            name=field,
+            options=options[field],
+            position={"x": x_pos, "y": y_pos},
+            width=420.0,
+            height=30.0,
+        )
+
+        # Submit Button erstellen
+        self.create_button(
+            "submit", lambda: self.delete_course(), {"x": 400.0, "y": 507.0}
+        )
+
+        # Zurück Button erstellen
+        select_module = importlib.import_module(
+            "ui.select"
+        )  # Um Circular Import Probleme zu verhindern
+        SelectUi = select_module.SelectUi
+        self.create_button(
+            "back", lambda: self.switch_to(SelectUi), {"x": 35.0, "y": 15.0}
+        )
+
+        self.window.mainloop()
+
+    def delete_course(self):
+        """Funktion zum Löschen eines Kurses."""
+        log.info("Deleting a course...")
+        try:
+            select_course = self.get_selected_dropdown_value("Select Course")
+
+            # prüfen ob ein Kurs ausgewählt wurde
+            if select_course == "":
+                self.show_error_dialog("Please select a course to delete.")
+        except Exception as e:
+            self.show_error_dialog(e)
+
+        # Variable in ein SQL-Statement schreiben
+        delete = "DELETE FROM courses"
+        where = f"WHERE course_name = '{select_course}'"
+
+        sql = f"{delete} {where}"
+        log.debug(f"SQL-Statement: {sql}")
