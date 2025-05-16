@@ -22,7 +22,7 @@ def main():
     # Konfiguration laden
     config_path = "config/settings.yml"
     config = load_config(config_path)
-    log.info("Konfig geladen!")
+    log.info("Konfigurationsdatei geladen!")
 
     # Konfiguration um assets_path erweitern
     assets_path = str(os.path.join(os.getcwd(), "ui/assets/"))
@@ -36,7 +36,7 @@ def main():
 
     # Home Dashboard starten
     with HomeUi(root, config):
-        log.info("Dashboard gestartet!")
+        log.debug("Dashboard gestartet!")
 
     root.mainloop()
 
