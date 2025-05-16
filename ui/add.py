@@ -7,15 +7,16 @@ from ui.ui_base import UiBase
 class AddUi(UiBase):
     """Klasse für das Add-Dasboard."""
 
-    def __init__(self, master, config):
+    def __init__(self, master, config, db):
         """
         Initialisierung der Add-Klasse.
 
         :param master: Tkinter Objekt
         :param config: dict - Konfigurationsdatei
+        :param db: class - Datenbankverbindung
         :return: None
         """
-        super().__init__(master, config, "Add Course")
+        super().__init__(master, config, db, "Add Course")
 
         # Eingabefelder für Kursinformationen erstellen
         entry_fields = [
@@ -103,3 +104,10 @@ class AddUi(UiBase):
 
         sql = f"{insert} {values}"
         log.debug(f"SQL-Statement: {sql}")
+
+        # SQL-Statement ausführen
+        try:
+            self.mysqldb.execute_query(sql)
+            self.show_info_dialog("Course added successfully.")
+        except Exception as e:
+            self.show_error_dialog(f"Error adding course: {e}")

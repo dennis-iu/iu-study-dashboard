@@ -10,15 +10,16 @@ from ui.ui_base import UiBase
 class SelectUi(UiBase):
     """Klasse für das Select-Dasboard."""
 
-    def __init__(self, master, config):
+    def __init__(self, master, config, db):
         """
         Initialisierung der Select-Klasse.
 
         :param master: Tkinter Objekt
         :param config: dict - Konfigurationsdatei
+        :param db: class - Datenbankverbindung
         :return: None
         """
-        super().__init__(master, config, "Course Changes")
+        super().__init__(master, config, db, "Course Changes")
 
         # Liste für die hintergrundbilder der Auswahlkarten erstellen
         self.selection_card_bg_images = []
