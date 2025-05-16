@@ -10,18 +10,20 @@ from tkinter import (Button, Canvas, Entry, Label, PhotoImage, Radiobutton,
 class UiBase(ABC):
     """Base-Klasse für alle Dashboards."""
 
-    def __init__(self, master, config, window_title):
+    def __init__(self, master, config, db, window_title):
         """
         Initialisierung der UiBase-Klasse.
 
         :param master: Tkinter Objekt
         :param config: dict - Konfigurationsdatei
+        :param db: class - Datenbankverbindung
         :param window_title: str - Titel des Fensters
         :return: None
         """
         # Variablen initialisieren
-        self.config = config
         self.window = master
+        self.config = config
+        self.mysqldb = db
         self.window_title = window_title
         self.entries = {}
         self.dropdown_references = {}
@@ -72,7 +74,7 @@ class UiBase(ABC):
             widget.destroy()
 
         # Neues Dashboard laden
-        new_dashboard_class(self.window, self.config)
+        new_dashboard_class(self.window, self.config, self.mysqldb)
 
     def create_rounded_rectangle(self, x1, y1, x2, y2, radius=10, **kwargs):
         """
@@ -346,19 +348,28 @@ class UiBase(ABC):
         :return: bool - True wenn die Note eingegeben werden kann, sonst False
         """
         if grade == "" and status != "completed":
-            return ""
+            return "NULL"
         elif grade == "" and status == "completed":
             self.show_error_dialog("Grade must be set if the course is completed.")
-            return ""
+            return "NULL"
         elif grade != "" and status != "completed":
             self.show_error_dialog("Grade can only be set if the course is completed.")
-            return ""
+            return "NULL"
         elif grade != "" and status == "completed":
             grade = float(grade)
             if grade < 0.0 or grade > 6.0:
                 self.show_error_dialog("Grade must be between 0.0 and 6.0.")
-                return ""
+                return "NULL"
         return grade
+
+    def show_info_dialog(self, message):
+        """
+        Methode um die Info-Nachricht anzuzeigen
+
+        :param path: str - Info-Nachricht
+        :return: None
+        """
+        messagebox.showinfo("Info", message)
 
     def show_error_dialog(self, message):
         """

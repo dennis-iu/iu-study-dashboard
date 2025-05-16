@@ -5,6 +5,7 @@
 **Voraussetzungen:**  
 - Python 3.x  
 - pyenv  
+- docker-compose  
 - ggf. make  
 
 **Einrichtung mit make:**  
@@ -18,6 +19,10 @@
     pyenv activate study-env  
  - Abhängigkeiten aus der requirements.txt installieren:  
     pip install -r requirements.txt  
+
+**Ausführung des Projektes:**
+ - docker-compose up -d (Danach etwa 10-30 Sekunden warten)
+ - python main.py
   
 **Aufbau des Projektes:**  
 Weitere Doku folgt...  

@@ -7,19 +7,22 @@ from ui.ui_base import UiBase
 class DeleteUi(UiBase):
     """Klasse für das Delete-Dasboard."""
 
-    def __init__(self, master, config):
+    def __init__(self, master, config, db):
         """
         Initialisierung der Delete-Klasse.
 
         :param master: Tkinter Objekt
         :param config: dict - Konfigurationsdatei
+        :param db: class - Datenbankverbindung
         :return: None
         """
-        super().__init__(master, config, "Delete Course")
+        super().__init__(master, config, db, "Delete Course")
 
         # Variablen für Eingabefeld
         field = "Select Course"
-        options = {"Select Course": ["Course 1", "Course 2", "Course 3"]}
+        options = {
+            "Select Course": self.mysqldb.execute_query("select course_id from courses")
+        }
         y_pos = 210.0
         x_pos = 190.0
 
@@ -73,7 +76,14 @@ class DeleteUi(UiBase):
 
         # Variable in ein SQL-Statement schreiben
         delete = "DELETE FROM courses"
-        where = f"WHERE course_name = '{select_course}'"
+        where = f"WHERE course_id = '{select_course}'"
 
         sql = f"{delete} {where}"
         log.debug(f"SQL-Statement: {sql}")
+
+        # SQL-Statement ausführen
+        try:
+            self.mysqldb.execute_query(sql)
+            self.show_info_dialog(f"Course {select_course} deleted successfully.")
+        except Exception as e:
+            self.show_error_dialog(f"Error deleting course: {e}")

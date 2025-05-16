@@ -1,6 +1,7 @@
 import logging as log
 import os
 
+from src.mysql import MySqlDb
 from src.utils import load_config
 from ui.home import HomeUi
 
@@ -34,9 +35,11 @@ def main():
     # Root-Titel setzen
     root.title("study-dashboard")
 
-    # Home Dashboard starten
-    with HomeUi(root, config):
-        log.debug("Dashboard gestartet!")
+    # Datenbankverbindung initialisieren
+    with MySqlDb(config) as db:
+        # Home Dashboard starten
+        with HomeUi(root, config, db):
+            log.debug("Dashboard gestartet!")
 
     root.mainloop()
 

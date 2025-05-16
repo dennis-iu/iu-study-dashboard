@@ -7,20 +7,23 @@ from ui.ui_base import UiBase
 class ChangeUi(UiBase):
     """Klasse für das Change-Dasboard."""
 
-    def __init__(self, master, config):
+    def __init__(self, master, config, db):
         """
         Initialisierung der Change-Klasse.
 
         :param master: Tkinter Objekt
         :param config: dict - Konfigurationsdatei
+        :param db: class - Datenbankverbindung
         :return: None
         """
-        super().__init__(master, config, "Change Status")
+        super().__init__(master, config, db, "Change Status")
 
         # Eingabefelder für Statusänderungen erstellen
         entry_fields = ["Select Course", "Set Status", "Set Grade (optional)"]
         options = {
-            "Select Course": ["Course 1", "Course 2", "Course 3"],
+            "Select Course": self.mysqldb.execute_query(
+                "select course_id from courses"
+            ),
             "Set Status": ["open", "in progress", "completed"],
         }
         y_pos = 175.0
@@ -88,7 +91,14 @@ class ChangeUi(UiBase):
 
         # Variablen in ein SQL-Statement schreiben
         update = "UPDATE courses"
-        set = f"SET status = '{set_status}', grade = {set_grade} WHERE course_name = '{select_course}'"
+        set = f"SET course_status = '{set_status}', grade = {set_grade} WHERE course_id = '{select_course}'"
 
         sql = f"{update} {set}"
         log.debug(f"SQL-Statement: {sql}")
+
+        # SQL-Statement ausführen
+        try:
+            self.mysqldb.execute_query(sql)
+            self.show_info_dialog(f"Course {select_course} updated successfully.")
+        except Exception as e:
+            self.show_error_dialog(f"Error updating course: {e}")
