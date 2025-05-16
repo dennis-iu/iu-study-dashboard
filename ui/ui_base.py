@@ -349,12 +349,15 @@ class UiBase(ABC):
             return ""
         elif grade == "" and status == "completed":
             self.show_error_dialog("Grade must be set if the course is completed.")
+            return ""
         elif grade != "" and status != "completed":
             self.show_error_dialog("Grade can only be set if the course is completed.")
+            return ""
         elif grade != "" and status == "completed":
             grade = float(grade)
             if grade < 0.0 or grade > 6.0:
                 self.show_error_dialog("Grade must be between 0.0 and 6.0.")
+                return ""
         return grade
 
     def show_error_dialog(self, message):
