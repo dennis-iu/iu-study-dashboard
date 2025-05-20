@@ -1,10 +1,10 @@
 import importlib
 import logging as log
 
-from ui.ui_base import UiBase
+from ui.entry_base import EntryBase
 
 
-class AddUi(UiBase):
+class AddUi(EntryBase):
     """Klasse für das Add-Dasboard."""
 
     def __init__(self, master, config, db):
@@ -17,6 +17,9 @@ class AddUi(UiBase):
         :return: None
         """
         super().__init__(master, config, db, "Add Course")
+
+    def specific_window(self):
+        """Funktion zur Erstellung des spezifischen Fensters."""
 
         # Eingabefelder für Kursinformationen erstellen
         entry_fields = [

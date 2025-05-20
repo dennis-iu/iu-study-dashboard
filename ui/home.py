@@ -18,6 +18,8 @@ class HomeUi(UiBase):
         """
         super().__init__(master, config, db, "Study Dashboard")
 
+    def specific_window(self):
+        """Funktion zur Erstellung des spezifischen Fensters."""
         # Notwendige Variablen initialisieren
         self.status_card_bg_images = []
         self.course_card_infos = {}

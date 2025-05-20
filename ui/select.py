@@ -24,6 +24,8 @@ class SelectUi(UiBase):
         # Liste für die hintergrundbilder der Auswahlkarten erstellen
         self.selection_card_bg_images = []
 
+    def specific_window(self):
+        """Funktion zur Erstellung des spezifischen Fensters."""
         # Auswahlkarten erstellen
         self.create_selection_cards(
             150.0,
