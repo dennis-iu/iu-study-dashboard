@@ -20,9 +20,49 @@
  - Abhängigkeiten aus der requirements.txt installieren:  
     pip install -r requirements.txt  
 
+**Aufbau des Projektes:**  
+<div align="center">
+  <img src="readme_assets/study_dashboard_uml.png" alt="study_dashboard_uml">
+</div>
+
 **Ausführung des Projektes:**
  - docker-compose up -d (Danach etwa 10-30 Sekunden warten)
  - python main.py
-  
-**Aufbau des Projektes:**  
-Weitere Doku folgt...  
+
+**Nutzung des Projektes:**  
+1. Ausführen der main.py  
+<div align="center">
+  <img src="readme_assets/empty_homeui.png" alt="empty_homeui">
+</div>
+
+2. Über den Course Changes Button zur Auswahlseite gelangen  
+<div align="center">
+  <img src="readme_assets/selectui.png" alt="selectui">
+</div>  
+
+3. Über den mittleren Pfeil der Course Changes Seite zur Add Course Seite navigieren  
+<div align="center">
+  <img src="readme_assets/addui.png" alt="addui">
+</div>
+
+4. Über den mittleren Pfeil der Course Changes Seite zur Change Status Seite navigieren  
+<div align="center">
+  <img src="readme_assets/changeui.png" alt="changeui">
+</div>
+
+5. Über den rechten Pfeil der Course Changes Seite zur Delete Course Seite navigieren 
+<div align="center">
+  <img src="readme_assets/deleteui.png" alt="deleteui">
+</div> 
+
+6. Dropdowns verwenden  
+<div align="center">
+  <img src="readme_assets/ui_dropdown.png" alt="ui_dropdown">
+</div> 
+
+7. Eingabe-Ergebnisse auf der Startseite begutachten (Zurück über den Button oben links)
+<div align="center">
+  <img src="readme_assets/homeui.png" alt="homeui">
+</div>  
+
+8. Gegebenfalls weitere Eingaben oder Änderungen über die gezeigten Möglichkeiten vornehmen

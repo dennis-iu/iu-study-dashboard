@@ -1,10 +1,10 @@
 import importlib
 import logging as log
 
-from ui.ui_base import UiBase
+from ui.entry_base import EntryBase
 
 
-class ChangeUi(UiBase):
+class ChangeUi(EntryBase):
     """Klasse für das Change-Dasboard."""
 
     def __init__(self, master, config, db):
@@ -18,6 +18,8 @@ class ChangeUi(UiBase):
         """
         super().__init__(master, config, db, "Change Status")
 
+    def specific_window(self):
+        """Funktion zur Erstellung des spezifischen Fensters."""
         # Eingabefelder für Statusänderungen erstellen
         entry_fields = ["Select Course", "Set Status", "Set Grade (optional)"]
         options = {

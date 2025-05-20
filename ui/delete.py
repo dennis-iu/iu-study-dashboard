@@ -1,10 +1,10 @@
 import importlib
 import logging as log
 
-from ui.ui_base import UiBase
+from ui.entry_base import EntryBase
 
 
-class DeleteUi(UiBase):
+class DeleteUi(EntryBase):
     """Klasse für das Delete-Dasboard."""
 
     def __init__(self, master, config, db):
@@ -18,6 +18,8 @@ class DeleteUi(UiBase):
         """
         super().__init__(master, config, db, "Delete Course")
 
+    def specific_window(self):
+        """Funktion zur Erstellung des spezifischen Fensters."""
         # Variablen für Eingabefeld
         field = "Select Course"
         options = {
