@@ -8,17 +8,20 @@
 - docker-compose  
 - ggf. make  
 
-**Einrichtung mit make:**  
- - make prepare in der Konsole ausführen
- - angezeigten Schritten folgen
+**Einrichtung mit make (Linux/Darwin):**  
+ - make prepare <deine-python-version> in der Konsole ausführen (Danach etwa 10-30 Sekunden warten)  
+ - pyenv activate study-env  
    
-**Einrichtung ohne make:**  
+**Einrichtung ohne make (windows):**  
  - virtuelle Python Umgebung erzeugen:  
     pyenv virtualenv <deine-python-version> study-env  
  - virtuelle Umgebung aktivieren:  
     pyenv activate study-env  
  - Abhängigkeiten aus der requirements.txt installieren:  
     pip install -r requirements.txt  
+ - Docker starten  
+    docker-compose up -d (Danach etwa 10-30 Sekunden warten)  
+
 
 **Aufbau des Projektes:**  
 <div align="center">
@@ -26,7 +29,6 @@
 </div>
 
 **Ausführung des Projektes:**
- - docker-compose up -d (Danach etwa 10-30 Sekunden warten)
  - python main.py
 
 **Nutzung des Projektes:**  

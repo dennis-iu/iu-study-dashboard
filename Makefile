@@ -3,28 +3,15 @@ PYTHON_FILES := $(shell find . -type f -name "*.py" -not -path "./venv/*")
 YAML_FILES := $(shell find . -type f -name "*.yml" -o -name "*.yaml")
 
 # Projekt vorbereiten
-prepare: create_virtualenv install_requirements
-	@echo "Projekt ist jetzt bereit! Du kannst die main Methode ausführen."
-
-# Virtuelle Python-Umgebung erstellen und aktivieren
-create_virtualenv:
-	@echo "Erstelle virtuelle Python-Umgebung..."
-	python3 -m venv venv
-	@echo "Aktiviere virtuelle Python-Umgebung..."
-	@if [ "$(OS)" = "Windows_NT" ]; then \
-		call venv\\Scripts\\activate; \
-	elif [ "$(shell uname)" = "Darwin" ] || [ "$(shell uname)" = "Linux" ]; then \
-		. venv/bin/activate; \
-	else \
-		echo "Unbekanntes Betriebssystem, keine Aktivierung der virtuellen Umgebung möglich."; \
+prepare:
+	@if [ "$(word 2,$(MAKECMDGOALS))" = "" ]; then \
+		echo "Bitte Python-Version angeben: make prepare 3.12.4"; \
+		exit 1; \
 	fi
-	@echo "Virtuelle Python-Umgebung erstellt und aktiviert!"
-
-# Installieren der Abhängigkeiten aus requirements.txt
-install_requirements:
-	@echo "Installiere Abhängigkeiten aus requirements.txt..."
-	pip install -r requirements.txt
-	@echo "Abhängigkeiten installiert!"
+	@echo "Erstelle pyenv-Umgebung mit Python $(word 2,$(MAKECMDGOALS))..."
+	pyenv virtualenv $(word 2,$(MAKECMDGOALS)) study-env
+	~/.pyenv/versions/study-env/bin/pip install -r requirements.txt
+	sudo docker-compose up -d
 
 # make pre-commit Befehl erstellen
 .PHONY: pre-commit
