@@ -4,17 +4,48 @@
 
 **Voraussetzungen erfüllen:**  
 - Linux oder wsl einrichten  
-- Abhängigkeiten über folgende Befehle installieren  
-          - sudo apt update && sudo apt upgrade -y  
-          - sudo apt install -y build-essential python3 python3-pip python3-venv git curl unzip  
-          - sudo apt install -y docker.io docker-compose  
+- Abhängigkeiten über folgende Befehle installieren
+```bash 
+sudo apt update && sudo apt upgrade -y  
+sudo apt install -y build-essential python3 python3-pip python3-venv git curl unzip  
+sudo apt install -y docker.io docker-compose  
+```
+ - pyenv installieren 
+ ```bash 
+sudo apt update && sudo apt install -y \  
+build-essential curl git libbz2-dev libreadline-dev libssl-dev \  
+libsqlite3-dev zlib1g-dev libffi-dev libncursesw5-dev xz-utils tk-dev  
+```
+```bash
+curl https://pyenv.run | bash  
+```
+ - nano ~/.bashrc   # oder ~/.zshrc  
+ - folgendes ganz unten einfügen    
+```bash
+export PYENV_ROOT="$HOME/.pyenv"  
+export PATH="$PYENV_ROOT/bin:$PATH"    
+eval "$(pyenv init --path)"    
+eval "$(pyenv init -)"    
+eval "$(pyenv virtualenv-init -)"    
+```
+ - speichern, rausgehen und über source ~/.bashrc neu laden    
+ - funktioniert pyenv --version, ist pyenv korrekt installiert  
+ - gewünschte python Version installieren 
+ ```bash 
+pyenv install [deine-python-version>]  
+```
 
-**Einrichtung mit make:**  
- - make prepare <deine-python-version> in der Konsole ausführen (Danach etwa 10-30 Sekunden warten)  
- - pyenv activate study-env   
+**Weitere Einrichtung mit make:**  
+ - in der Konsole ausführen (danach etwa 10-30 Sekunden warten):
+ ```bash  
+make prepare [deine-python-version]
+pyenv activate study-env   
+```
 
 **Ausführung des Projektes:**  
- - python main.py  
+```bash
+python main.py  
+```
 
 **Aufbau des Projektes:**  
 <div align="center">
