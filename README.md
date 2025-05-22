@@ -2,34 +2,24 @@
 <center>DLBDSOOFPP01_D - Objektorientierte und funktionale Programmierung mit Python</center>  
 <center>Portfolio - Erarbeitung</center>  
 
-**Voraussetzungen:**  
-- Python 3.x  
-- pyenv  
-- docker-compose  
-- ggf. make  
+**Voraussetzungen erfüllen:**  
+- Linux oder wsl einrichten  
+- Abhängigkeiten über folgende Befehle installieren  
+          - sudo apt update && sudo apt upgrade -y  
+          - sudo apt install -y build-essential python3 python3-pip python3-venv git curl unzip  
+          - sudo apt install -y docker.io docker-compose  
 
-**Einrichtung mit make (Linux/Darwin):**  
+**Einrichtung mit make:**  
  - make prepare <deine-python-version> in der Konsole ausführen (Danach etwa 10-30 Sekunden warten)  
- - pyenv activate study-env  
-   
-**Einrichtung ohne make (windows):**  
- - virtuelle Python Umgebung erzeugen:  
-    pyenv virtualenv <deine-python-version> study-env  
- - virtuelle Umgebung aktivieren:  
-    pyenv activate study-env  
- - Abhängigkeiten aus der requirements.txt installieren:  
-    pip install -r requirements.txt  
- - Docker starten  
-    docker-compose up -d (Danach etwa 10-30 Sekunden warten)  
+ - pyenv activate study-env   
 
+**Ausführung des Projektes:**  
+ - python main.py  
 
 **Aufbau des Projektes:**  
 <div align="center">
   <img src="readme_assets/study_dashboard_uml.png" alt="study_dashboard_uml">
 </div>
-
-**Ausführung des Projektes:**
- - python main.py
 
 **Nutzung des Projektes:**  
 1. Ausführen der main.py  
