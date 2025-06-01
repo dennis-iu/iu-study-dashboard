@@ -10,6 +10,8 @@ prepare:
 	fi
 	@echo "Erstelle pyenv-Umgebung mit Python $(word 2,$(MAKECMDGOALS))..."
 	pyenv virtualenv $(word 2,$(MAKECMDGOALS)) study-env
+	~/.pyenv/versions/study-env/bin/pip install pip-tools
+	~/.pyenv/versions/study-env/bin/pip-compile requirements.in
 	~/.pyenv/versions/study-env/bin/pip install -r requirements.txt
 	sudo docker-compose up -d
 
